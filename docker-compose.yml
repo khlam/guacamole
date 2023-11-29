@@ -14,19 +14,28 @@ services:
       - MYSQL_DATABASE=guacamole_db
       - MYSQL_USER=guacamole_user
       - MYSQL_PASSWORD=password
+    networks:
+      - guac_network
 
   guacd:
     image: guacamole/guacd:latest
     container_name: guacd
     restart: always
+    networks:
+      - guac_network
 
   guacamole-db:
     image: mysql:latest
     container_name: guacamole-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: guacamole_db
-      MYSQL_USER: guacamole_user
-      MYSQL_PASSWORD: password
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=guacamole_db
+      - MYSQL_USER=guacamole_user
+      - MYSQL_PASSWORD=password
+    networks:
+      - guac_network
 
+networks:
+  guac_network:
+    driver: bridge
