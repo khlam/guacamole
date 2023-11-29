@@ -14,7 +14,6 @@ services:
       - MYSQL_DATABASE=guacamole_db
       - MYSQL_USER=guacamole_user
       - MYSQL_PASSWORD=password
-    command: ["--init-db"]
 
   guacd:
     image: guacamole/guacd:latest
@@ -30,3 +29,8 @@ services:
       MYSQL_DATABASE: guacamole_db
       MYSQL_USER: guacamole_user
       MYSQL_PASSWORD: password
+    command: ['bash', '-c', 'sleep 10 && mysql -hlocalhost -uroot -ppassword guacamole_db < /docker-entrypoint-initdb.d/initdb.sql']
+
+volumes:
+  db-init-scripts:
+    external: true
